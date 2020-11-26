@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+
+        <link rel="icon" type="image/png" sizes="250x250" href="https://mgcountss.github.io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="250x250" href="https://mgcountss.github.io/favicon-32x32.png">
+
+<link rel=stylesheet href="https://mgcountss.github.io/odometer-theme-default.css">
+
+ <script src="https://mgcountss.github.io/odometer.js.download"></script>
+
+<title>YouTube Live Subscriber Count</title>
+
+<style>
+
+
+
+
+
+
+body {
+margin: 0;
+overflow: hidden;
+}
+#image {
+position: absolute;
+top: 0%;
+left:78%;
+object-fit: cover;
+}
+#cname {
+position: absolute;
+top: 0%;
+left: 50;
+font-size: 20px;
+width: 245px;
+overflow: hidden;
+white-space: nowrap;
+text-overflow: ellipsis;
+}
+#odometer {
+position: absolute;
+top:25px;
+left: 70;
+font-size: 35px;
+width: 245px !important;
+}
+body {
+background-color:transparent;
+font-family: Roboto Regular;
+overflow:hidden;
+}
+
+image {
+border-radius: 100%;
+}
+
+#image {
+border: solid .25vh !Important;
+border-radius: 100%;
+border-color: rgb(0, 0, 0) !Important;
+}
+
+</style>
+
+
+</head>
+
+<div class="box">
+    <img id="image" class="image" src="" height="70" width="70">
+    <span id="cname"></span>
+    <span id="odometer" class="odometer">0</span>
+</div>
+</body>
+
+
+
+<script>
+
+var params = new URLSearchParams(document.location.search.substring(1));
+var CHANNEL_ID = params.get("id");
+
+async function getYTStats() {
+    let request = await fetch('https://api.livecounts.me/est/youtube/'+CHANNEL_ID+'', { mode: "cors" })
+    let data = await request.json().catch(() => {})
+    if (!data) return;
+    odometer.innerHTML = data.subscriberCount
+    cname.innerHTML = data.cname
+    updateimage(data.cimage);
+
+
+
+}
+setInterval(getYTStats, 3000)
+getYTStats()
+
+
+function updateimage(image) {
+document.querySelector(".image").src = image;
+}
+
+</script>
+
+</html>
