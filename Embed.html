@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<head>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script src="https://code.highcharts.com/stock/highstock.js"></script>
+<link rel="icon" type="image/png" sizes="250x250" href="https://mgcountss.github.io/favicon-32x32.png">
+<link rel=stylesheet href="https://mgcountss.github.io/odometer-theme-default.css">
+<script src="https://mgcountss.github.io/odometer.js.download"></script>
+<title>YouTube Live Subscriber Count</title>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+<style>
+    #image {
+        position: absolute;
+        top: 0%;
+        left: 0%;
+        object-fit: cover;
+    }
+
+    #title {
+        position: absolute;
+        top: 0%;
+        left: 70px;
+        font-size: 20px;
+        width: 245px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        color: #144862;
+        font-family: Roboto Light
+    }
+
+    #count {
+        position: absolute;
+        top: 25px;
+        left: 70px;
+        font-size: 35px;
+        width: 245px !important;
+        color: #144862;
+        font-family: Roboto Light
+    }
+
+    body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        body {
+            background-color: transparent;
+            font-family: Roboto Regular;
+        }
+
+</style>
+    </head>
+    <body>
+    <div class="embed-box">
+        <img id="image" class="image" src="" height="70" width="70">
+        <span id="title">
+        </span>
+        <span id="count" class="odometer">0</span>
+    </div>
+    </body>
+    <script>
+ 
+ var params = new URLSearchParams(document.location.search.substring(1));
+var ID = params.get("id");
+
+ async function getYTStats() {
+        let request = await fetch('https://api.mixerno.space/youtube/estimated/user/'+ID+'', { mode: "cors" })
+        let data = await request.json().catch(() => {})
+        if (!data) return;
+        count.innerHTML = data.SubscriberCount
+        title.innerHTML = data.name
+        updateimage(data.image);
+   }
+    setInterval(getYTStats, 3000)
+    getYTStats()
+
+    function updateimage(image) {
+    document.querySelector(".image").src = image;
+}
+
+    </script>
